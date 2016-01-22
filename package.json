@@ -1,0 +1,27 @@
+{
+  "name": "simple-stopwatch",
+  "version": "1.0.0",
+  "description": "It's a stopwatch. And it's simple.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shennan/simple-stopwatch.git"
+  },
+  "keywords": [
+    "stopwatch",
+    "countdown",
+    "timer"
+  ],
+  "author": "shennan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shennan/simple-stopwatch/issues"
+  },
+  "homepage": "https://github.com/shennan/simple-stopwatch"
+}
