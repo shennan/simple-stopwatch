@@ -28,7 +28,14 @@
 
 		var formats = ['%h:%m:%s:%ms', '%dh:%dm:%ds:%dms'];
 
-		window.stopwatch = simpleStopwatch(70000, formats[0], 100).on('tick', tick).on('dong', dong);
+		window.stopwatch = simpleStopwatch(70000, formats[0], 100)
+
+		stopwatch
+		.on('start', updateTime)
+		.on('stop', updateTime)
+		.on('reset', updateTime)
+		.on('tick', updateTime)
+		.on('dong', ended);
 
 		function start () {
 
@@ -36,7 +43,7 @@
 
 		}
 
-		function stop () {
+		function stop (time) {
 
 			stopwatch.stop();
 
@@ -48,13 +55,13 @@
 
 		}
 
-		function tick (time) {
+		function updateTime (time) {
 
 			output.innerHTML = time;
 
 		}
 
-		function dong (time) {
+		function ended (time) {
 
 			output.innerHTML = time + ' - dong!';
 

@@ -44,7 +44,7 @@
 
       }
 
-      emit('start');
+      emit('start', [time()]);
 
       return self;
 
@@ -54,7 +54,7 @@
 
       untick();
 
-      emit('stop');
+      emit('stop', [time()]);
 
       return self;
 
@@ -72,7 +72,7 @@
       if (wasRunning)
         start();
 
-      emit('reset');
+      emit('reset', [time(0)]);
 
       return self;
 
@@ -209,7 +209,7 @@
         clearTimeout(timeout),
         timeout = undefined;
 
-      emit('dong', [duration]);
+      emit('dong', [time(duration)]);
 
     }
 
