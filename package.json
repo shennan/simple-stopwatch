@@ -1,6 +1,6 @@
 {
   "name": "simple-stopwatch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "It's a stopwatch. And it's simple.",
   "main": "index.js",
   "directories": {
