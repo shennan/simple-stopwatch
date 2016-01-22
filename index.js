@@ -200,8 +200,8 @@
 
     /* expose public methods */
 
-    self.start = start;
-    self.stop = stop;
+    self.start = self.resume = start;
+    self.stop = self.pause = stop;
     self.reset = reset;
     self.on = on;
     self.off = off;
