@@ -7,13 +7,13 @@
   else
     root.simpleStopwatch = factory;
 
-  function factory (dur, res, fmt) {
+  function factory (dur, ctd, fmt, res) {
 
-    return new SimpleStopwatch(dur, res, fmt);
+    return new SimpleStopwatch(dur, ctd, fmt, res);
 
   }
 
-  function SimpleStopwatch (dur, res, fmt) {
+  function SimpleStopwatch (dur, ctd, fmt, res) {
 
     /* private vars */
 
@@ -21,7 +21,8 @@
 
     var resolution = res || 1000;
     var duration = dur || 0;
-    var format = fmt || '%m:%s:%ms';
+    var format = fmt || '%h:%m:%s';
+    var countdown = ctd || false;
 
     var milliseconds;
     var started;
@@ -114,6 +115,9 @@
 
       var c = typeof mill == 'undefined' ? current() : mill;
 
+      if (ctd && duration)
+        c = duration - c;
+
       var ms = Math.floor(((c % 1000) / 1000) * 100);
       var s = (c - (c %= 1000)) / 1000;
       var m = (s - (s %= 60)) / 60;
@@ -189,8 +193,9 @@
     self.current = current;
 
     self.duration = function (dur) { duration = dur; }
-    self.resolution = function (res) { resolution = res; }
+    self.countdown = function (ctd) { countdown = ctd; }
     self.format = function (fmt) { format = fmt; }
+    self.resolution = function (res) { resolution = res; }
 
     return self;
 
