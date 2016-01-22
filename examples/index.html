@@ -19,6 +19,7 @@
 
 	<button onclick="javascript:start();">start</button>
 	<button onclick="javascript:stop();">stop</button>
+	<button onclick="javascript:toggle();">toggle</button>
 	<button onclick="javascript:reset();">reset</button>
 	<button onclick="javascript:format();">format</button>
 
@@ -41,9 +42,15 @@
 
 		}
 
-		function stop (time) {
+		function stop () {
 
 			stopwatch.stop();
+
+		}
+
+		function toggle () {
+
+			stopwatch.toggle();
 
 		}
 

@@ -60,6 +60,17 @@
 
     }
 
+    function toggle () {
+
+      if (running())
+        stop();
+      else
+        start();
+
+      return self;
+
+    }
+
     function reset () {
 
       var wasRunning = running();
@@ -247,6 +258,7 @@
 
     self.start = self.resume = start;
     self.stop = self.pause = stop;
+    self.toggle = toggle;
     self.reset = reset;
     self.on = on;
     self.off = off;
