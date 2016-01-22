@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Simple Stopwatch</title>
+	<script type="text/javascript" src="../index.js"></script>
+	<style type="text/css">
+
+		h1, h2 { font-family: "Trebuchet MS", Helvetica, sans-serif; color: #959595; }
+
+	</style>
+</head>
+
+<body>
+
+	<h1>Simple Stopwatch</h1>
+
+	<h2 id="output"><h2>
+
+	<button onclick="javascript:start();">start</button>
+	<button onclick="javascript:stop();">stop</button>
+	<button onclick="javascript:reset();">reset</button>
+	<button onclick="javascript:format();">format</button>
+
+	<script type="text/javascript">
+
+		var output = document.getElementById('output');
+
+		var formats = ['%m:%s:%ms', '%m|%s', '%h - %m - %s'];
+		var f = 0;
+
+		window.stopwatch = simpleStopwatch(10000, 100, formats[0]).on('tick', tick).on('dong', dong);
+
+		function start () {
+
+			stopwatch.start();
+
+		}
+
+		function stop () {
+
+			stopwatch.stop();
+
+		}
+
+		function reset () {
+
+			stopwatch.reset();
+
+		}
+
+		function tick (time) {
+
+			output.innerHTML = time;
+
+		}
+
+		function dong () {
+
+			output.innerHTML = 'dong!';
+
+		}
+
+		function format () {
+
+			f++;
+
+			stopwatch.format( formats[f % formats.length] );
+
+		}
+
+	</script>
+</body>
+</html>
