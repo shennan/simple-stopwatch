@@ -7,13 +7,13 @@
   else
     root.simpleStopwatch = factory;
 
-  function factory (dur, ctd, fmt, res) {
+  function factory (dur, fmt, res) {
 
-    return new SimpleStopwatch(dur, ctd, fmt, res);
+    return new SimpleStopwatch(dur, fmt, res);
 
   }
 
-  function SimpleStopwatch (dur, ctd, fmt, res) {
+  function SimpleStopwatch (dur, fmt, res) {
 
     /* private vars */
 
@@ -21,8 +21,7 @@
 
     var resolution = res || 1000;
     var duration = dur || 0;
-    var format = fmt || '%h:%m:%s';
-    var countdown = ctd || false;
+    var format = fmt || (dur ? '%dh:%dm:%ds' : '%h:%m:%s');
 
     var milliseconds;
     var started;
@@ -111,24 +110,41 @@
       }
     }
 
-    function time (mill) {
+    function time (mill, dur, fmt) {
 
-      var c = typeof mill == 'undefined' ? current() : mill;
+      if (typeof mill == 'undefined')
+        mill = current();
 
-      if (ctd && duration)
-        c = duration - c;
+      if (!dur)
+        dur = duration;
 
-      var ms = Math.floor(((c % 1000) / 1000) * 100);
-      var s = (c - (c %= 1000)) / 1000;
-      var m = (s - (s %= 60)) / 60;
-      var h = (m - (m %= 60)) / 60;
+      if (!fmt)
+        fmt = format;
 
-      ms = ms < 10 ? '0' + ms : ms;
-      s = s < 10 ? '0' + s : s;
-      m = m < 10 ? '0' + m : m;
-      h = h < 10 ? '0' + h : h;
+      var milliseconds = dMilliseconds = parseInt( mill % 1000 );
+      var seconds = dSeconds = parseInt( (mill / 1000) % 60 ) ;
+      var minutes = dMinutes = parseInt( ((mill / (1000 * 60)) % 60) );
+      var hours   = dHours = parseInt( ((mill / (1000 * 60 * 60)) % 24) );
 
-      return format.replace(/%ms/g, ms).replace(/%s/g, s).replace(/%m/g, m).replace(/%h/g, h);
+      if (dur) {
+
+        var dMill = dur - mill;
+
+        dMilliseconds = parseInt( dMill % 1000 );
+        dSeconds = parseInt( (dMill / 1000) % 60 ) ;
+        dMinutes = parseInt( ((dMill / (1000 * 60)) % 60) );
+        dHours   = parseInt( ((dMill / (1000 * 60 * 60)) % 24) );
+
+      }
+
+      return fmt.replace(/%dms/g, dMilliseconds)
+        .replace(/%ds/g, dSeconds)
+        .replace(/%dm/g, dMinutes)
+        .replace(/%dh/g, dHours)
+        .replace(/%ms/g, milliseconds)
+        .replace(/%s/g, seconds)
+        .replace(/%m/g, minutes)
+        .replace(/%h/g, hours);
 
     }
 
@@ -192,10 +208,35 @@
     self.time = time;
     self.current = current;
 
-    self.duration = function (dur) { duration = dur; }
-    self.countdown = function (ctd) { countdown = ctd; }
-    self.format = function (fmt) { format = fmt; }
-    self.resolution = function (res) { resolution = res; }
+    self.duration = function (dur) {
+
+      if (typeof dur == 'undefined') {
+        return duration; 
+      } else {
+        duration = dur;
+        return self; 
+      }
+    }
+
+    self.format = function (fmt) {
+
+      if (typeof fmt == 'undefined') {
+        return format;
+      } else {
+        format = fmt;
+        return self;
+      }
+    }
+
+    self.resolution = function (res) {
+
+      if (typeof res == 'undefined') {
+        return resolution;
+      } else {
+        resolution = res;
+        return self;
+      }
+    }
 
     return self;
 
