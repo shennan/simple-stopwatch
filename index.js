@@ -44,7 +44,7 @@
 
       }
 
-      emit('start', [time()]);
+      emit('start resume', [time()]);
 
       return self;
 
@@ -54,7 +54,7 @@
 
       untick();
 
-      emit('stop', [time()]);
+      emit('stop pause', [time()]);
 
       return self;
 
@@ -181,12 +181,17 @@
 
     function emit (event, args) {
 
-      if (events[event]) {
+      event = event.split(' ');
 
-        for (var i = 0; i < events[event].length; i++) {
+      for (var i = 0; i < event.length; i++) {
 
-          events[event][i].apply(self, args);
+        if (events[event[i]]) {
 
+          for (var j = 0; j < events[event[i]].length; j++) {
+
+            events[event[i]][j].apply(self, args);
+
+          }
         }
       }
     }
