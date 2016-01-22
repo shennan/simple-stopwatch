@@ -196,6 +196,17 @@
       }
     }
 
+    function alias (event) {
+
+      return function (handler) {
+
+        on(event, handler);
+
+        return self;
+
+      }
+    }
+
     function tick (remaining) {
 
       var c = current();
@@ -242,6 +253,11 @@
     self.time = time;
     self.current = current;
     self.running = running;
+
+    self.started = self.resumed = alias('start');
+    self.stopped = self.paused = alias('stop');
+    self.ticked = alias('tick');
+    self.donged = self.ended = alias('dong');
 
     self.duration = function (dur) {
 

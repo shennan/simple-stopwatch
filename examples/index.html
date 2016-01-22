@@ -28,11 +28,12 @@
 
 		var formats = ['%h:%m:%s:%ms', '%dh:%dm:%ds:%dms'];
 
-		window.stopwatch = simpleStopwatch(5000, formats[0], 100)
+		window.stopwatch = simpleStopwatch(5000, formats[0], 100);
 
 		stopwatch
-		.on('start stop reset tick', updateTime)
-		.on('dong', ended);
+			.on('start stop reset', updateTime)
+			.ticked(updateTime)
+			.ended(ended);
 
 		function start () {
 
