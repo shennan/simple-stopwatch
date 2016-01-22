@@ -26,10 +26,9 @@
 
 		var output = document.getElementById('output');
 
-		var formats = ['%m:%s:%ms', '%m|%s', '%h - %m - %s'];
-		var f = 0;
+		var formats = ['%h:%m:%s:%ms', '%dh:%dm:%ds:%dms'];
 
-		window.stopwatch = simpleStopwatch(10000, 100, formats[0]).on('tick', tick).on('dong', dong);
+		window.stopwatch = simpleStopwatch(70000, formats[0], 100).on('tick', tick).on('dong', dong);
 
 		function start () {
 
@@ -55,17 +54,17 @@
 
 		}
 
-		function dong () {
+		function dong (time) {
 
-			output.innerHTML = 'dong!';
+			output.innerHTML = time + ' - dong!';
 
 		}
 
 		function format () {
 
-			f++;
-
-			stopwatch.format( formats[f % formats.length] );
+			var fmt = stopwatch.format() == formats[0] ? formats[1] : formats[0];
+			
+			stopwatch.format( fmt );
 
 		}
 
