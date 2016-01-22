@@ -33,12 +33,16 @@
 
     function start () {
 
-      started = new Date().getTime();
+      if (!running()) {
 
-      if (milliseconds)
-        tick(resolution - (milliseconds % resolution));
-      else
-        tick();
+        started = new Date().getTime();
+
+        if (milliseconds)
+          tick(resolution - (milliseconds % resolution));
+        else
+          tick();
+
+      }
 
       emit('start');
 
@@ -58,10 +62,15 @@
 
     function reset () {
 
+      var wasRunning = running();
+
       untick();
 
       started = undefined;
       milliseconds = 0;
+
+      if (wasRunning)
+        start();
 
       emit('reset');
 
@@ -99,7 +108,7 @@
 
     function current () {
 
-      if (timeout) {
+      if (running()) {
 
         return new Date().getTime() - started + (milliseconds || 0);
 
@@ -108,6 +117,12 @@
         return milliseconds || 0;
 
       }
+    }
+
+    function running () {
+
+      return typeof timeout != 'undefined';
+
     }
 
     function time (mill, dur, fmt) {
@@ -207,6 +222,7 @@
     self.off = off;
     self.time = time;
     self.current = current;
+    self.running = running;
 
     self.duration = function (dur) {
 
