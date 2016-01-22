@@ -2,11 +2,33 @@
 
 ## install
 
+Load the script from the browser:
+
 ```html
 <script type="text/javascript" src="simple-stopwatch/index.js"></script>
 ```
 
+Or install using npm:
+
+```
+$ npm install simple-stopwatch
+```
+
 ## usage
+
+Use from the window:
+
+```js
+simpleStopwatch().start();
+```
+
+Or use a CommonJS module loader and namespace it:
+
+```js
+var stopwatch = require('simple-stopwatch');
+
+stopwatch().start();
+```
 
 Start a basic count:
 
