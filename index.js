@@ -80,10 +80,19 @@
 
     function on (event, handler) {
 
-      if (!events[event])
-        events[event] = [handler];
-      else
-        events[event].push(handler);
+      event = event.split(' ');
+
+      for (var i = 0; i < event.length; i++) {
+
+        if (event[i].length) {
+
+          if (!events[event[i]])
+            events[event[i]] = [handler];
+          else
+            events[event[i]].push(handler);
+
+        }
+      }
 
       return self;
 
@@ -91,14 +100,19 @@
 
     function off (event, handler) {
 
-      if (events[event]) {
+      event = event.split(' ');
 
-        for (var i = 0; i < events[event].length; i++) {
+      for (var i = 0; i < event.length; i++) {
+        
+        if (events[event[i]]) {
 
-          if (events[event][i] == handler)
-            events[event].splice(i, 1),
-            i--;
+          for (var j = 0; j < events[event[i]].length; j++) {
 
+            if (events[event[i]][j] == handler)
+              events[event[i]].splice(j, 1),
+              j--;
+
+          }
         }
       }
 

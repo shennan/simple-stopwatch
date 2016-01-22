@@ -28,13 +28,10 @@
 
 		var formats = ['%h:%m:%s:%ms', '%dh:%dm:%ds:%dms'];
 
-		window.stopwatch = simpleStopwatch(70000, formats[0], 100)
+		window.stopwatch = simpleStopwatch(5000, formats[0], 100)
 
 		stopwatch
-		.on('start', updateTime)
-		.on('stop', updateTime)
-		.on('reset', updateTime)
-		.on('tick', updateTime)
+		.on('start stop reset tick', updateTime)
 		.on('dong', ended);
 
 		function start () {
