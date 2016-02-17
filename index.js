@@ -7,13 +7,13 @@
   else
     root.simpleStopwatch = factory;
 
-  function factory (dur, fmt, res) {
+  function factory (dur, fmt, res, pad) {
 
-    return new SimpleStopwatch(dur, fmt, res);
+    return new SimpleStopwatch(dur, fmt, res, pad);
 
   }
 
-  function SimpleStopwatch (dur, fmt, res) {
+  function SimpleStopwatch (dur, fmt, res, pad) {
 
     /* private vars */
 
@@ -22,6 +22,7 @@
     var resolution = res || 1000;
     var duration = dur || 0;
     var format = fmt || (dur ? '%dh:%dm:%ds' : '%h:%m:%s');
+    var padding = pad || 0;
 
     var milliseconds;
     var started;
@@ -177,14 +178,14 @@
 
       }
 
-      return fmt.replace(/%dms/g, dMilliseconds)
-        .replace(/%ds/g, dSeconds)
-        .replace(/%dm/g, dMinutes)
-        .replace(/%dh/g, dHours)
-        .replace(/%ms/g, milliseconds)
-        .replace(/%s/g, seconds)
-        .replace(/%m/g, minutes)
-        .replace(/%h/g, hours);
+      return fmt.replace(/%dms/g, padNumber(dMilliseconds))
+        .replace(/%ds/g, padNumber(dSeconds))
+        .replace(/%dm/g, padNumber(dMinutes))
+        .replace(/%dh/g, padNumber(dHours))
+        .replace(/%ms/g, padNumber(milliseconds))
+        .replace(/%s/g, padNumber(seconds))
+        .replace(/%m/g, padNumber(minutes))
+        .replace(/%h/g, padNumber(hours));
 
     }
 
@@ -205,6 +206,21 @@
           }
         }
       }
+    }
+
+    function padNumber (n) {
+
+      for (var i = 0; i < padding; i++) {
+
+        var max = Math.pow(10, i + 1);
+
+        if (parseInt(n) < max)
+          n = '0' + n;
+
+      }
+
+      return n;
+
     }
 
     function alias (event) {
@@ -265,6 +281,7 @@
     self.time = time;
     self.current = current;
     self.running = running;
+    self.padding = padding;
 
     self.started = self.resumed = alias('start');
     self.stopped = self.paused = alias('stop');
@@ -297,6 +314,16 @@
         return resolution;
       } else {
         resolution = res;
+        return self;
+      }
+    }
+
+    self.padding = function (pad) {
+
+      if (typeof pad == 'undefined') {
+        return padding;
+      } else {
+        padding = pad;
         return self;
       }
     }

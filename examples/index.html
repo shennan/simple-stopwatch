@@ -29,7 +29,7 @@
 
 		var formats = ['%h:%m:%s:%ms', '%dh:%dm:%ds:%dms'];
 
-		window.stopwatch = simpleStopwatch(5000, formats[0], 100);
+		window.stopwatch = simpleStopwatch(5000, formats[0], 100, 1);
 
 		stopwatch
 			.on('start stop reset', updateTime)
