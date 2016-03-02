@@ -151,7 +151,7 @@
 
     }
 
-    function time (mill, dur, fmt) {
+    function time (mill, dur, fmt, p) {
 
       if (typeof mill == 'undefined')
         mill = current();
@@ -161,6 +161,9 @@
 
       if (!fmt)
         fmt = format;
+
+      if (typeof p == 'undefined')
+        p = padding;
 
       var milliseconds = dMilliseconds = parseInt( mill % 1000 );
       var seconds = dSeconds = parseInt( (mill / 1000) % 60 ) ;
@@ -178,14 +181,14 @@
 
       }
 
-      return fmt.replace(/%dms/g, padNumber(dMilliseconds))
-        .replace(/%ds/g, padNumber(dSeconds))
-        .replace(/%dm/g, padNumber(dMinutes))
-        .replace(/%dh/g, padNumber(dHours))
-        .replace(/%ms/g, padNumber(milliseconds))
-        .replace(/%s/g, padNumber(seconds))
-        .replace(/%m/g, padNumber(minutes))
-        .replace(/%h/g, padNumber(hours));
+      return fmt.replace(/%dms/g, padNumber(dMilliseconds, p))
+        .replace(/%ds/g, padNumber(dSeconds, p))
+        .replace(/%dm/g, padNumber(dMinutes, p))
+        .replace(/%dh/g, padNumber(dHours, p))
+        .replace(/%ms/g, padNumber(milliseconds, p))
+        .replace(/%s/g, padNumber(seconds, p))
+        .replace(/%m/g, padNumber(minutes, p))
+        .replace(/%h/g, padNumber(hours, p));
 
     }
 
@@ -208,9 +211,9 @@
       }
     }
 
-    function padNumber (n) {
+    function padNumber (n, p) {
 
-      for (var i = 0; i < padding; i++) {
+      for (var i = 0; i < p; i++) {
 
         var max = Math.pow(10, i + 1);
 
